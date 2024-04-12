@@ -1828,6 +1828,8 @@ declare namespace llvm {
 
         public createArrayType(size: number, alignInBits: number, elementType: DIType, subscripts: DINode[]): DICompositeType;
 
+        public createStructType(scope: DIScope, name: string, file: DIFile, line: number, sizeInBits: number, alignInBits: number, flags: number, derivedFrom: DIType | undefined, elements: DINode[]): DICompositeType;
+
         public getOrCreateTypeArray(elements: (Metadata | null)[]): DITypeRefArray;
 
         public createSubroutineType(paramTypes: DITypeRefArray): DISubroutineType;
