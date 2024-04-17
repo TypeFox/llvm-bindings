@@ -1,5 +1,9 @@
+#include "IR/DIBuilder.h"
+#include "IR/DebugInfoMetadata.h"
+#include "IR/Metadata.h"
 #include "IR/index.h"
 #include "Util/index.h"
+#include "napi.h"
 
 void DIBuilder::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
@@ -9,6 +13,7 @@ void DIBuilder::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("createFunction", &DIBuilder::createFunction),
             InstanceMethod("createLexicalBlock", &DIBuilder::createLexicalBlock),
             InstanceMethod("createBasicType", &DIBuilder::createBasicType),
+            InstanceMethod("createArrayType", &DIBuilder::createArrayType),
             InstanceMethod("getOrCreateTypeArray", &DIBuilder::getOrCreateTypeArray),
             InstanceMethod("createSubroutineType", &DIBuilder::createSubroutineType),
             InstanceMethod("createExpression", &DIBuilder::createExpression),
@@ -148,6 +153,36 @@ Napi::Value DIBuilder::createBasicType(const Napi::CallbackInfo &info) {
         return DIBasicType::New(env, type);
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::DIBuilder::createBasicType);
+}
+
+Napi::Value DIBuilder::createArrayType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if(info.Length() == 4
+        && info[0].IsNumber()
+        && info[1].IsNumber()
+        && DIType::IsClassOf(info[2])
+        && info[3].IsArray()
+        && DINode::IsClassOf(info[3].As<Napi::Array>().Get((uint32_t)0).As<Napi::Value>()))
+{
+            unsigned size = info[0].As<Napi::Number>();
+            unsigned align = info[1].As<Napi::Number>();
+            llvm::DIType *elementType = DIType::Extract(info[2]);
+
+            // transform info[3] to DINodeArray
+            llvm::DINodeArray subscriptsArray;
+            if (info[3].IsArray()) {
+                Napi::Array subscripts = info[3].As<Napi::Array>();
+                std::vector<llvm::Metadata *> subscriptsVec;
+                for (uint32_t i = 0; i < subscripts.Length(); i++) {
+                    llvm::Metadata *metadata = Metadata::Extract(subscripts.Get(i));
+                    subscriptsVec.push_back(metadata);
+                }
+                subscriptsArray = builder->getOrCreateArray(subscriptsVec);
+            }
+            llvm::DICompositeType *type = builder->createArrayType(size, align, elementType, subscriptsArray);
+            return DIType::New(env, type);
+        }
+    throw Napi::TypeError::New(env, ErrMsg::Class::DIBuilder::createArrayType);
 }
 
 Napi::Value DIBuilder::getOrCreateTypeArray(const Napi::CallbackInfo &info) {

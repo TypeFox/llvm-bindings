@@ -15,3 +15,6 @@ test/temp/
 
 /**/**/.DS_Store
 cmake_install.cmake
+
+.cache/
+CMakeFiles/

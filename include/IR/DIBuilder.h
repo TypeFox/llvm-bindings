@@ -32,6 +32,8 @@ private:
 
     Napi::Value createBasicType(const Napi::CallbackInfo &info);
 
+    Napi::Value createArrayType(const Napi::CallbackInfo &info);
+
     Napi::Value getOrCreateTypeArray(const Napi::CallbackInfo &info);
 
     Napi::Value createSubroutineType(const Napi::CallbackInfo &info);

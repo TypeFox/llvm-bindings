@@ -1826,6 +1826,8 @@ declare namespace llvm {
 
         public createBasicType(name: string, sizeInBits: number, encoding: number): DIBasicType;
 
+        public createArrayType(size: number, alignInBits: number, elementType: DIType, subscripts: DINode[]): DICompositeType;
+
         public getOrCreateTypeArray(elements: (Metadata | null)[]): DITypeRefArray;
 
         public createSubroutineType(paramTypes: DITypeRefArray): DISubroutineType;
