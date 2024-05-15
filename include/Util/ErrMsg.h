@@ -537,6 +537,7 @@ namespace ErrMsg {
             constexpr const char *createLexicalBlock = "DIBuilder.createLexicalBlock needs to be called with: (scope: DIScope, file: DIFile, line: number, column: number)";
             constexpr const char *createBasicType = "DIBuilder.createBasicType needs to be called with (name: string, sizeInBits: number, encoding: number)";
             constexpr const char *createArrayType = "DIBuilder.createArrayType needs to be called with (size: number, align: number, type: DIType, subscripts: DINode[])";
+            constexpr const char *createStructType = "DIBuilder.createStructType needs to be called with (scope: DIScope, name: string, file: DIFile, lineNumber: number, sizeInBits: number, alignInBits: number, flags: number, derivedFrom: DIType | undefined, elements: DINode[])";
             constexpr const char *getOrCreateTypeArray = "DIBuilder.getOrCreateTypeArray needs to be called with (elements: Metadata[])";
             constexpr const char *createSubroutineType = "DIBuilder.createSubroutineType needs to be called with (paramTypes: DITypeRefArray)";
             constexpr const char *createParameterVariable = "DIBuilder.createParameterVariable needs to be called with (scope: DIScope, name: string, argNo: number, file: DIFile, line: number, type: DIType, alwaysPreserve?: boolean)";
