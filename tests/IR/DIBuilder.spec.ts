@@ -49,6 +49,7 @@ describe('Test DIBuilder', () => {
             expect(output).toContain(`!8 = !DICompositeType(tag: DW_TAG_array_type, baseType: !5, size: 2, align: 32, elements: !9)`);
         });
     });
+
     describe('Test createStructType', () => {
         test('Debug Info for struct present in file', () => {
             const context = new llvm.LLVMContext();
