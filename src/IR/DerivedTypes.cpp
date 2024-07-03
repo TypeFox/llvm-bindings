@@ -65,7 +65,7 @@ Napi::Value IntegerType::get(const Napi::CallbackInfo &info) {
 
 Napi::Value IntegerType::isIntegerTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
-    if (info.Length() == 0 || !info[0].IsNumber()) {
+    if (info.Length() != 0 && !info[0].IsNumber()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::IntegerType::isIntegerTy);
     }
     bool result = info.Length() == 0 ? integerType->isIntegerTy() : integerType->isIntegerTy(info[0].As<Napi::Number>());
@@ -440,12 +440,7 @@ Napi::Value StructType::getPointerTo(const Napi::CallbackInfo &info) {
 }
 
 Napi::Value StructType::isIntegerTy(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() == 0 || !info[0].IsNumber()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IntegerType::isIntegerTy);
-    }
-    bool result = info.Length() == 0 ? structType->isIntegerTy() : structType->isIntegerTy(info[0].As<Napi::Number>());
-    return Napi::Boolean::New(env, result);
+    return Napi::Boolean::New(info.Env(), structType->isIntegerTy());
 }
 
 Napi::Value StructType::isFunctionTy(const Napi::CallbackInfo &info) {
@@ -747,12 +742,7 @@ llvm::PointerType *PointerType::getLLVMPrimitive() {
 }
 
 Napi::Value PointerType::isIntegerTy(const Napi::CallbackInfo &info) {
-    Napi::Env env = info.Env();
-    if (info.Length() == 0 || !info[0].IsNumber()) {
-        throw Napi::TypeError::New(env, ErrMsg::Class::IntegerType::isIntegerTy);
-    }
-    bool result = info.Length() == 0 ? pointerType->isIntegerTy() : pointerType->isIntegerTy(info[0].As<Napi::Number>());
-    return Napi::Boolean::New(env, result);
+    return Napi::Boolean::New(info.Env(), pointerType->isIntegerTy());
 }
 
 Napi::Value PointerType::isFunctionTy(const Napi::CallbackInfo &info) {
