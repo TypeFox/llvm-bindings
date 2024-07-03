@@ -9,8 +9,12 @@ void IntegerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "IntegerType", {
             StaticMethod("get", &IntegerType::get),
-            InstanceMethod("isStructTy", &IntegerType::isStructTy),
             InstanceMethod("isIntegerTy", &IntegerType::isIntegerTy),
+            InstanceMethod("isFunctionTy", &IntegerType::isFunctionTy),
+            InstanceMethod("isPointerTy", &IntegerType::isPointerTy),
+            InstanceMethod("isArrayTy", &IntegerType::isArrayTy),
+            InstanceMethod("isStructTy", &IntegerType::isStructTy),
+            InstanceMethod("isVectorTy", &IntegerType::isVectorTy),
             InstanceMethod("isVoidTy", &IntegerType::isVoidTy),
             InstanceMethod("getTypeID", &IntegerType::getTypeID)
     });
@@ -59,10 +63,6 @@ Napi::Value IntegerType::get(const Napi::CallbackInfo &info) {
     return IntegerType::New(env, integerType);
 }
 
-Napi::Value IntegerType::isStructTy(const Napi::CallbackInfo &info) {
-    return Napi::Boolean::New(info.Env(), integerType->isStructTy());
-}
-
 Napi::Value IntegerType::isIntegerTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !info[0].IsNumber()) {
@@ -70,6 +70,26 @@ Napi::Value IntegerType::isIntegerTy(const Napi::CallbackInfo &info) {
     }
     bool result = info.Length() == 0 ? integerType->isIntegerTy() : integerType->isIntegerTy(info[0].As<Napi::Number>());
     return Napi::Boolean::New(env, result);
+}
+
+Napi::Value IntegerType::isFunctionTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), integerType->isFunctionTy());
+}
+
+Napi::Value IntegerType::isPointerTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), integerType->isPointerTy());
+}
+
+Napi::Value IntegerType::isArrayTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), integerType->isArrayTy());
+}
+
+Napi::Value IntegerType::isStructTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), integerType->isStructTy());
+}
+
+Napi::Value IntegerType::isVectorTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), integerType->isVectorTy());
 }
 
 Napi::Value IntegerType::isVoidTy(const Napi::CallbackInfo &info) {
@@ -88,6 +108,12 @@ void FunctionType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "FunctionType", {
             StaticMethod("get", &FunctionType::get),
+            InstanceMethod("isIntegerTy", &FunctionType::isIntegerTy),
+            InstanceMethod("isFunctionTy", &FunctionType::isFunctionTy),
+            InstanceMethod("isPointerTy", &FunctionType::isPointerTy),
+            InstanceMethod("isArrayTy", &FunctionType::isArrayTy),
+            InstanceMethod("isStructTy", &FunctionType::isStructTy),
+            InstanceMethod("isVectorTy", &FunctionType::isVectorTy),
             InstanceMethod("isVoidTy", &FunctionType::isVoidTy),
             InstanceMethod("getTypeID", &FunctionType::getTypeID)
     });
@@ -147,6 +173,30 @@ Napi::Value FunctionType::get(const Napi::CallbackInfo &info) {
         functionType = llvm::FunctionType::get(returnType, isVarArg);
     }
     return FunctionType::New(env, functionType);
+}
+
+Napi::Value FunctionType::isIntegerTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), functionType->isIntegerTy());
+}
+
+Napi::Value FunctionType::isFunctionTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), functionType->isFunctionTy());
+}
+
+Napi::Value FunctionType::isPointerTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), functionType->isPointerTy());
+}
+
+Napi::Value FunctionType::isArrayTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), functionType->isArrayTy());
+}
+
+Napi::Value FunctionType::isStructTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), functionType->isStructTy());
+}
+
+Napi::Value FunctionType::isVectorTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), functionType->isVectorTy());
 }
 
 Napi::Value FunctionType::isVoidTy(const Napi::CallbackInfo &info) {
@@ -229,8 +279,12 @@ void StructType::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("isPacked", &StructType::isPacked),
             InstanceMethod("isLiteral", &StructType::isLiteral),
             InstanceMethod("getPointerTo", &StructType::getPointerTo),
-            InstanceMethod("isStructTy", &StructType::isStructTy),
             InstanceMethod("isIntegerTy", &StructType::isIntegerTy),
+            InstanceMethod("isFunctionTy", &StructType::isFunctionTy),
+            InstanceMethod("isPointerTy", &StructType::isPointerTy),
+            InstanceMethod("isStructTy", &StructType::isStructTy),
+            InstanceMethod("isArrayTy", &StructType::isArrayTy),
+            InstanceMethod("isVectorTy", &StructType::isVectorTy),
             InstanceMethod("isVoidTy", &StructType::isVoidTy),
             InstanceMethod("getTypeID", &StructType::getTypeID)
     });
@@ -385,10 +439,6 @@ Napi::Value StructType::getPointerTo(const Napi::CallbackInfo &info) {
     return PointerType::New(env, pointerType);
 }
 
-Napi::Value StructType::isStructTy(const Napi::CallbackInfo &info) {
-    return Napi::Boolean::New(info.Env(), structType->isStructTy());
-}
-
 Napi::Value StructType::isIntegerTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 0 || !info[0].IsNumber()) {
@@ -396,6 +446,26 @@ Napi::Value StructType::isIntegerTy(const Napi::CallbackInfo &info) {
     }
     bool result = info.Length() == 0 ? structType->isIntegerTy() : structType->isIntegerTy(info[0].As<Napi::Number>());
     return Napi::Boolean::New(env, result);
+}
+
+Napi::Value StructType::isFunctionTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), structType->isFunctionTy());
+}
+
+Napi::Value StructType::isPointerTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), structType->isPointerTy());
+}
+
+Napi::Value StructType::isStructTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), structType->isStructTy());
+}
+
+Napi::Value StructType::isArrayTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), structType->isArrayTy());
+}
+
+Napi::Value StructType::isVectorTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), structType->isVectorTy());
 }
 
 Napi::Value StructType::isVoidTy(const Napi::CallbackInfo &info) {
@@ -417,7 +487,12 @@ void ArrayType::Init(Napi::Env env, Napi::Object &exports) {
             StaticMethod("isValidElementType", &ArrayType::isValidElementType),
             InstanceMethod("getNumElements", &ArrayType::getNumElements),
             InstanceMethod("getElementType", &ArrayType::getElementType),
+            InstanceMethod("isIntegerTy", &ArrayType::isIntegerTy),
+            InstanceMethod("isFunctionTy", &ArrayType::isFunctionTy),
+            InstanceMethod("isPointerTy", &ArrayType::isPointerTy),
+            InstanceMethod("isArrayTy", &ArrayType::isArrayTy),
             InstanceMethod("isStructTy", &ArrayType::isStructTy),
+            InstanceMethod("isVectorTy", &ArrayType::isVectorTy),
             InstanceMethod("isVoidTy", &ArrayType::isVoidTy),
             InstanceMethod("getTypeID", &ArrayType::getTypeID)
     });
@@ -482,8 +557,28 @@ Napi::Value ArrayType::getElementType(const Napi::CallbackInfo &info) {
     return Type::New(info.Env(), arrayType->getElementType());
 }
 
+Napi::Value ArrayType::isIntegerTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), arrayType->isIntegerTy());
+}
+
+Napi::Value ArrayType::isFunctionTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), arrayType->isFunctionTy());
+}
+
+Napi::Value ArrayType::isPointerTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), arrayType->isPointerTy());
+}
+
+Napi::Value ArrayType::isArrayTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), arrayType->isArrayTy());
+}
+
 Napi::Value ArrayType::isStructTy(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(info.Env(), arrayType->isStructTy());
+}
+
+Napi::Value ArrayType::isVectorTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), arrayType->isVectorTy());
 }
 
 Napi::Value ArrayType::isVoidTy(const Napi::CallbackInfo &info) {
@@ -501,7 +596,13 @@ Napi::Value ArrayType::getTypeID(const Napi::CallbackInfo &info) {
 void VectorType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "VectorType", {
+            InstanceMethod("isIntegerTy", &VectorType::isIntegerTy),
+            InstanceMethod("isFunctionTy", &VectorType::isFunctionTy),
+            InstanceMethod("isPointerTy", &VectorType::isPointerTy),
+            InstanceMethod("isArrayTy", &VectorType::isArrayTy),
             InstanceMethod("isStructTy", &VectorType::isStructTy),
+            InstanceMethod("isVectorTy", &VectorType::isVectorTy),
+            InstanceMethod("isVoidTy", &VectorType::isVoidTy),
             InstanceMethod("isVoidTy", &VectorType::isVoidTy),
             InstanceMethod("getTypeID", &VectorType::getTypeID)
     });
@@ -539,8 +640,28 @@ llvm::VectorType *VectorType::getLLVMPrimitive() {
     return vectorType;
 }
 
+Napi::Value VectorType::isIntegerTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), vectorType->isIntegerTy());
+}
+
+Napi::Value VectorType::isFunctionTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), vectorType->isFunctionTy());
+}
+
+Napi::Value VectorType::isPointerTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), vectorType->isPointerTy());
+}
+
+Napi::Value VectorType::isArrayTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), vectorType->isArrayTy());
+}
+
 Napi::Value VectorType::isStructTy(const Napi::CallbackInfo &info) {
     return Napi::Boolean::New(info.Env(), vectorType->isStructTy());
+}
+
+Napi::Value VectorType::isVectorTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), vectorType->isVectorTy());
 }
 
 Napi::Value VectorType::isVoidTy(const Napi::CallbackInfo &info) {
@@ -560,9 +681,12 @@ void PointerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::Function func = DefineClass(env, "PointerType", {
             StaticMethod("get", &PointerType::get),
             StaticMethod("getUnqual", &PointerType::getUnqual),
-            InstanceMethod("isPointerTy", &PointerType::isPointerTy),
-            InstanceMethod("isStructTy", &PointerType::isStructTy),
             InstanceMethod("isIntegerTy", &PointerType::isIntegerTy),
+            InstanceMethod("isFunctionTy", &PointerType::isFunctionTy),
+            InstanceMethod("isPointerTy", &PointerType::isPointerTy),
+            InstanceMethod("isArrayTy", &PointerType::isArrayTy),
+            InstanceMethod("isStructTy", &PointerType::isStructTy),
+            InstanceMethod("isVectorTy", &PointerType::isVectorTy),
             InstanceMethod("isVoidTy", &PointerType::isVoidTy),
             InstanceMethod("getTypeID", &PointerType::getTypeID),
             InstanceMethod("getPointerElementType", &PointerType::getPointerElementType)
@@ -618,16 +742,8 @@ Napi::Value PointerType::getUnqual(const Napi::CallbackInfo &info) {
     return PointerType::New(env, pointerType);
 }
 
-Napi::Value PointerType::isPointerTy(const Napi::CallbackInfo &info) {
-    return Napi::Boolean::New(info.Env(), pointerType->isPointerTy());
-}
-
 llvm::PointerType *PointerType::getLLVMPrimitive() {
     return pointerType;
-}
-
-Napi::Value PointerType::isStructTy(const Napi::CallbackInfo &info) {
-    return Napi::Boolean::New(info.Env(), pointerType->isStructTy());
 }
 
 Napi::Value PointerType::isIntegerTy(const Napi::CallbackInfo &info) {
@@ -637,6 +753,26 @@ Napi::Value PointerType::isIntegerTy(const Napi::CallbackInfo &info) {
     }
     bool result = info.Length() == 0 ? pointerType->isIntegerTy() : pointerType->isIntegerTy(info[0].As<Napi::Number>());
     return Napi::Boolean::New(env, result);
+}
+
+Napi::Value PointerType::isFunctionTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), pointerType->isFunctionTy());
+}
+
+Napi::Value PointerType::isPointerTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), pointerType->isPointerTy());
+}
+
+Napi::Value PointerType::isArrayTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), pointerType->isArrayTy());
+}
+
+Napi::Value PointerType::isStructTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), pointerType->isStructTy());
+}
+
+Napi::Value PointerType::isVectorTy(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), pointerType->isVectorTy());
 }
 
 Napi::Value PointerType::isVoidTy(const Napi::CallbackInfo &info) {

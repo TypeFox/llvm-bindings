@@ -235,8 +235,8 @@ declare namespace llvm {
         public print(): string;
     }
 
-    class Type {
-        public static readonly TypeID: {
+    namespace Type {
+        const TypeID: {
             HalfTyID: number;
             BFloatTyID: number;
             FloatTyID: number;
@@ -258,159 +258,187 @@ declare namespace llvm {
             ScalableVectorTyID: number;
         };
 
-        public static getVoidTy(context: LLVMContext): Type;
+        function getVoidTy(context: LLVMContext): Type;
 
-        public static getLabelTy(context: LLVMContext): Type;
+        function getLabelTy(context: LLVMContext): Type;
 
-        public static getHalfTy(context: LLVMContext): Type;
+        function getHalfTy(context: LLVMContext): Type;
 
-        public static getBFloatTy(context: LLVMContext): Type;
+        function getBFloatTy(context: LLVMContext): Type;
 
-        public static getFloatTy(context: LLVMContext): Type;
+        function getFloatTy(context: LLVMContext): Type;
 
-        public static getDoubleTy(context: LLVMContext): Type;
+        function getDoubleTy(context: LLVMContext): Type;
 
-        public static getMetadataTy(context: LLVMContext): Type;
+        function getMetadataTy(context: LLVMContext): Type;
 
-        public static getX86_FP80Ty(context: LLVMContext): Type;
+        function getX86_FP80Ty(context: LLVMContext): Type;
 
-        public static getFP128Ty(context: LLVMContext): Type;
+        function getFP128Ty(context: LLVMContext): Type;
 
-        public static getPPC_FP128Ty(context: LLVMContext): Type;
+        function getPPC_FP128Ty(context: LLVMContext): Type;
 
-        public static getX86_MMXTy(context: LLVMContext): Type;
+        function getX86_MMXTy(context: LLVMContext): Type;
 
-        public static getTokenTy(context: LLVMContext): Type;
+        function getTokenTy(context: LLVMContext): Type;
 
-        public static getIntNTy(context: LLVMContext, numBits: number): IntegerType;
+        function getIntNTy(context: LLVMContext, numBits: number): IntegerType;
 
-        public static getInt1Ty(context: LLVMContext): IntegerType;
+        function getInt1Ty(context: LLVMContext): IntegerType;
 
-        public static getInt8Ty(context: LLVMContext): IntegerType;
+        function getInt8Ty(context: LLVMContext): IntegerType;
 
-        public static getInt16Ty(context: LLVMContext): IntegerType;
+        function getInt16Ty(context: LLVMContext): IntegerType;
 
-        public static getInt32Ty(context: LLVMContext): IntegerType;
+        function getInt32Ty(context: LLVMContext): IntegerType;
 
-        public static getInt64Ty(context: LLVMContext): IntegerType;
+        function getInt64Ty(context: LLVMContext): IntegerType;
 
-        public static getInt128Ty(context: LLVMContext): IntegerType;
+        function getInt128Ty(context: LLVMContext): IntegerType;
 
-        public static getHalfPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getHalfPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getBFloatPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getBFloatPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getFloatPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getFloatPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getDoublePtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getDoublePtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getX86_FP80PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getX86_FP80PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getFP128PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getFP128PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getPPC_FP128PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getPPC_FP128PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getX86_MMXPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getX86_MMXPtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getInt1PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getInt1PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getInt8PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getInt8PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getInt16PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getInt16PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getInt32PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getInt32PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
-        public static getInt64PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+        function getInt64PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+    }
+    type Type = IntegerType | FunctionType | StructType | ArrayType | VectorType | PointerType | { /* corresponds to class Type in IR/Type.h */
 
-        public getTypeID(): number;
+        getTypeID(): 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
-        public isVoidTy(): boolean;
+        isVoidTy(): boolean;
 
-        public isHalfTy(): boolean;
+        isHalfTy(): boolean;
 
-        public isBFloatTy(): boolean;
+        isBFloatTy(): boolean;
 
-        public isFloatTy(): boolean;
+        isFloatTy(): boolean;
 
-        public isDoubleTy(): boolean;
+        isDoubleTy(): boolean;
 
-        public isX86_FP80Ty(): boolean;
+        isX86_FP80Ty(): boolean;
 
-        public isFP128Ty(): boolean;
+        isFP128Ty(): boolean;
 
-        public isPPC_FP128Ty(): boolean;
+        isPPC_FP128Ty(): boolean;
 
-        public isFloatingPointTy(): boolean;
+        isFloatingPointTy(): boolean;
 
-        public isX86_MMXTy(): boolean;
+        isX86_MMXTy(): boolean;
 
-        public isLabelTy(): boolean;
+        isLabelTy(): boolean;
 
-        public isMetadataTy(): boolean;
+        isMetadataTy(): boolean;
 
-        public isTokenTy(): boolean;
+        isTokenTy(): boolean;
 
-        public isIntegerTy(bitWidth?: number): boolean;
+        isIntegerTy(bitWidth?: number): this is IntegerType;
 
-        public isFunctionTy(): boolean;
+        isFunctionTy(): this is FunctionType;
 
-        public isStructTy(): boolean;
+        isStructTy(): this is StructType;
 
-        public isArrayTy(): boolean;
+        isArrayTy(): this is ArrayType;
 
-        public isPointerTy(): boolean;
+        isPointerTy(): this is PointerType;
 
-        public isVectorTy(): boolean;
+        isVectorTy(): this is VectorType;
 
-        public isEmptyTy(): boolean;
+        isEmptyTy(): boolean;
 
-        public isFirstClassType(): boolean;
+        isFirstClassType(): boolean;
 
-        public isSingleValueType(): boolean;
+        isSingleValueType(): boolean;
 
-        public isAggregateType(): boolean;
+        isAggregateType(): boolean;
 
-        public getPointerTo(addrSpace?: number): PointerType;
+        getPointerTo(addrSpace?: number): PointerType;
 
-        public getPrimitiveSizeInBits(): number;
+        getPrimitiveSizeInBits(): number;
 
-        public getPointerElementType(): Type;
+        getPointerElementType(): Type;
 
         // extra
-        public static isSameType(type1: Type, type2: Type): boolean;
-
-        protected constructor();
+        isSameType(type1: Type, type2: Type): boolean;
     }
 
-    class IntegerType extends Type {
-        public static get(context: LLVMContext, numBits: number): IntegerType;
+    namespace IntegerType {
+        function get(context: LLVMContext, numBits: number): IntegerType;
+    }
+    interface IntegerType { 
+        // duplicated
+        isIntegerTy(bitWidth?: number): this is IntegerType;
 
         // duplicated
-        public isStructTy(): boolean;
+        isFunctionTy(): this is FunctionType;
 
         // duplicated
-        public isIntegerTy(bitWidth?: number): boolean;
+        isPointerTy(): this is PointerType;
 
         // duplicated
-        public isVoidTy(): boolean;
+        isStructTy(): this is StructType;
 
         // duplicated
-        public getTypeID(): number;
+        isArrayTy(): this is ArrayType;
 
-        protected constructor();
+        // duplicated
+        isVectorTy(): this is VectorType;
+
+        // duplicated
+        isVoidTy(): boolean;
+
+        // duplicated
+        getTypeID(): 13;
     }
 
-    class FunctionType extends Type {
-        public static get(returnType: Type, isVarArg: boolean): FunctionType;
-        public static get(returnType: Type, paramTypes: Type[], isVarArg: boolean): FunctionType;
+    namespace FunctionType {
+        function get(returnType: Type, isVarArg: boolean): FunctionType;
+        function get(returnType: Type, paramTypes: Type[], isVarArg: boolean): FunctionType;
+    }
+    interface FunctionType {
+        // duplicated
+        isIntegerTy(bitWidth?: number): this is IntegerType;
 
         // duplicated
-        public isVoidTy(): boolean;
+        isFunctionTy(): this is FunctionType;
 
         // duplicated
-        public getTypeID(): number;
+        isPointerTy(): this is PointerType;
 
-        protected constructor();
+        // duplicated
+        isStructTy(): this is StructType;
+
+        // duplicated
+        isArrayTy(): this is ArrayType;
+
+        // duplicated
+        isVectorTy(): this is VectorType;
+
+        // duplicated
+        isVoidTy(): boolean;
+
+        // duplicated
+        getTypeID(): 14;
     }
 
     class FunctionCallee {
@@ -421,105 +449,152 @@ declare namespace llvm {
         protected constructor();
     }
 
-    class StructType extends Type {
-        public static create(context: LLVMContext, name: string): StructType;
-        public static create(context: LLVMContext, elementTypes: Type[], name: string): StructType;
+    namespace StructType {
+        function create(context: LLVMContext, name: string): StructType;
+        function create(context: LLVMContext, elementTypes: Type[], name: string): StructType;
 
-        public static get(context: LLVMContext): StructType;
-        public static get(context: LLVMContext, elementTypes: Type[]): StructType;
+        function get(context: LLVMContext): StructType;
+        function get(context: LLVMContext, elementTypes: Type[]): StructType;
+    }
+    interface StructType {
+        getTypeByName(name: string): StructType | null;
 
-        public getTypeByName(name: string): StructType | null;
+        setBody(elementTypes: Type[]): void;
 
-        public setBody(elementTypes: Type[]): void;
+        setName(name: string): void;
 
-        public setName(name: string): void;
+        hasName(): boolean;
 
-        public hasName(): boolean;
+        getName(): string;
 
-        public getName(): string;
+        isOpaque(): boolean;
 
-        public isOpaque(): boolean;
+        isPacked(): boolean;
 
-        public isPacked(): boolean;
-
-        public isLiteral(): boolean;
-
-        // duplicated
-        public getPointerTo(addrSpace?: number): PointerType;
+        isLiteral(): boolean;
 
         // duplicated
-        public isStructTy(): boolean;
+        getPointerTo(addrSpace?: number): PointerType;
 
         // duplicated
-        public isIntegerTy(bitWidth?: number): boolean;
+        isIntegerTy(bitWidth?: number): this is IntegerType;
 
         // duplicated
-        public isVoidTy(): boolean;
+        isFunctionTy(): this is FunctionType;
 
         // duplicated
-        public getTypeID(): number;
+        isPointerTy(): this is PointerType;
 
-        protected constructor();
+        // duplicated
+        isStructTy(): this is StructType;
+
+        // duplicated
+        isArrayTy(): this is ArrayType;
+
+        // duplicated
+        isVectorTy(): this is VectorType;
+
+        // duplicated
+        isVoidTy(): boolean;
+
+        // duplicated
+        getTypeID(): 16;
+    }
+    namespace ArrayType {
+        function get(elemType: Type, numElements: number): ArrayType;
+
+        function isValidElementType(elemType: Type): boolean;
+    }
+    interface ArrayType {
+        getNumElements(): number;
+
+        getElementType(): Type;
+
+        // duplicated
+        isIntegerTy(bitWidth?: number): this is IntegerType;
+
+        // duplicated
+        isFunctionTy(): this is FunctionType;
+
+        // duplicated
+        isPointerTy(): this is PointerType;
+
+        // duplicated
+        isStructTy(): this is StructType;
+
+        // duplicated
+        isArrayTy(): this is ArrayType;
+
+        // duplicated
+        isVectorTy(): this is VectorType;
+
+        // duplicated
+        isVoidTy(): boolean;
+
+        // duplicated
+        getTypeID(): 17;
     }
 
-    class ArrayType extends Type {
-        public static get(elemType: Type, numElements: number): ArrayType;
-
-        public static isValidElementType(elemType: Type): boolean;
-
-        public getNumElements(): number;
-
-        public getElementType(): Type;
+    namespace VectorType {
+    }
+    interface VectorType {
+        // duplicated
+        isIntegerTy(bitWidth?: number): this is IntegerType;
 
         // duplicated
-        public isStructTy(): boolean;
+        isFunctionTy(): this is FunctionType;
 
         // duplicated
-        public isVoidTy(): boolean;
+        isPointerTy(): this is PointerType;
 
         // duplicated
-        public getTypeID(): number;
+        isStructTy(): this is StructType;
 
-        protected constructor();
+        // duplicated
+        isArrayTy(): this is ArrayType;
+
+        // duplicated
+        isVectorTy(): this is VectorType;
+
+        // duplicated
+        isVoidTy(): boolean;
+
+        // duplicated
+        getTypeID(): 18 | 19;
     }
 
-    class VectorType extends Type {
-        // duplicated
-        public isStructTy(): boolean;
+    namespace PointerType {
+        function get(elementType: Type, addrSpace: number): PointerType;
 
-        // duplicated
-        public isVoidTy(): boolean;
-
-        // duplicated
-        public getTypeID(): number;
-
-        protected constructor();
+        function getUnqual(elementType: Type): PointerType;
     }
-
-    class PointerType extends Type {
-        public static get(elementType: Type, addrSpace: number): PointerType;
-
-        public static getUnqual(elementType: Type): PointerType;
+    interface PointerType {
+        // duplicated
+        isIntegerTy(bitWidth?: number): this is IntegerType;
 
         // duplicated
-        public isPointerTy(): boolean;
+        isFunctionTy(): this is FunctionType;
 
         // duplicated
-        public isStructTy(): boolean;
+        isPointerTy(): this is PointerType;
 
         // duplicated
-        public isIntegerTy(bitWidth?: number): boolean;
+        isStructTy(): this is StructType;
 
         // duplicated
-        public isVoidTy(): boolean;
+        isArrayTy(): this is ArrayType;
 
         // duplicated
-        public getTypeID(): number;
+        isVectorTy(): this is VectorType;
 
         // duplicated
-        public getPointerElementType(): Type;
+        isVoidTy(): boolean;
 
-        protected constructor();
+        // duplicated
+        getTypeID(): 15;
+
+        // duplicated
+        getPointerElementType(): Type;
     }
 
     class Value {
