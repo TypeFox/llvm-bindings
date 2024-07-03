@@ -321,6 +321,9 @@ declare namespace llvm {
         function getInt32PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
 
         function getInt64PtrTy(context: LLVMContext, addrSpace?: number): PointerType;
+
+        // extra
+        function isSameType(type1: Type, type2: Type): boolean;
     }
     type Type = IntegerType | FunctionType | StructType | ArrayType | VectorType | PointerType | { /* corresponds to class Type in IR/Type.h */
 
@@ -377,9 +380,6 @@ declare namespace llvm {
         getPrimitiveSizeInBits(): number;
 
         getPointerElementType(): Type;
-
-        // extra
-        isSameType(type1: Type, type2: Type): boolean;
     }
 
     namespace IntegerType {
@@ -455,10 +455,10 @@ declare namespace llvm {
 
         function get(context: LLVMContext): StructType;
         function get(context: LLVMContext, elementTypes: Type[]): StructType;
+
+        function getTypeByName(context: LLVMContext, name: string): StructType | null;
     }
     interface StructType {
-        getTypeByName(name: string): StructType | null;
-
         setBody(elementTypes: Type[]): void;
 
         setName(name: string): void;
