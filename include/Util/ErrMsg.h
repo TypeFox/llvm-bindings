@@ -71,6 +71,7 @@ namespace ErrMsg {
         }
         namespace VectorType {
             constexpr const char *constructor = "VectorType.constructor needs to be called with new (external: Napi::External<llvm::VectorType>)";
+            constexpr const char *get = "VectorType.get needs to be called with (elemType: Type, numElements: number, scalable: boolean)";
         }
         namespace PointerType {
             constexpr const char *constructor = "PointerType.constructor needs to be called with new (external: Napi::External<llvm::PointerType>)";

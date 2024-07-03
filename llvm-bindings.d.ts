@@ -536,6 +536,7 @@ declare namespace llvm {
     }
 
     namespace VectorType {
+        function get(elemType: Type, numElements: number, scalable: bool): VectorType;
     }
     interface VectorType {
         // duplicated

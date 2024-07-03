@@ -591,6 +591,7 @@ Napi::Value ArrayType::getTypeID(const Napi::CallbackInfo &info) {
 void VectorType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "VectorType", {
+            StaticMethod("get", &VectorType::get),
             InstanceMethod("isIntegerTy", &VectorType::isIntegerTy),
             InstanceMethod("isFunctionTy", &VectorType::isFunctionTy),
             InstanceMethod("isPointerTy", &VectorType::isPointerTy),
@@ -633,6 +634,17 @@ VectorType::VectorType(const Napi::CallbackInfo &info) : ObjectWrap(info) {
 
 llvm::VectorType *VectorType::getLLVMPrimitive() {
     return vectorType;
+}
+
+Napi::Value VectorType::get(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() >= 3 && Type::IsClassOf(info[0]) && info[1].IsNumber() && info[2].IsBoolean()) {
+        llvm::Type *elemType = Type::Extract(info[0]);
+        unsigned numElements = info[1].As<Napi::Number>();
+        bool scalable = info[2].As<Napi::Boolean>();
+        return VectorType::New(env, llvm::VectorType::get(elemType, numElements, scalable));
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::VectorType::get);
 }
 
 Napi::Value VectorType::isIntegerTy(const Napi::CallbackInfo &info) {

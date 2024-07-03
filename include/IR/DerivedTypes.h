@@ -226,6 +226,8 @@ public:
 private:
     llvm::VectorType *vectorType = nullptr;
 
+    static Napi::Value get(const Napi::CallbackInfo &info);
+
     Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
 
     Napi::Value isFunctionTy(const Napi::CallbackInfo &info);
