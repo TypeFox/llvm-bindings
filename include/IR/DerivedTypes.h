@@ -24,9 +24,17 @@ private:
 
     static Napi::Value get(const Napi::CallbackInfo &info);
 
+    Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isFunctionTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isPointerTy(const Napi::CallbackInfo &info);
+
     Napi::Value isStructTy(const Napi::CallbackInfo &info);
 
-    Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
+    Napi::Value isArrayTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isVectorTy(const Napi::CallbackInfo &info);
 
     Napi::Value isVoidTy(const Napi::CallbackInfo &info);
 
@@ -53,6 +61,18 @@ private:
     llvm::FunctionType *functionType = nullptr;
 
     static Napi::Value get(const Napi::CallbackInfo &info);
+
+    Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isFunctionTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isPointerTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isStructTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isArrayTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isVectorTy(const Napi::CallbackInfo &info);
 
     Napi::Value isVoidTy(const Napi::CallbackInfo &info);
 
@@ -126,9 +146,17 @@ private:
 
     Napi::Value getPointerTo(const Napi::CallbackInfo &info);
 
+    Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isFunctionTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isPointerTy(const Napi::CallbackInfo &info);
+
     Napi::Value isStructTy(const Napi::CallbackInfo &info);
 
-    Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
+    Napi::Value isArrayTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isVectorTy(const Napi::CallbackInfo &info);
 
     Napi::Value isVoidTy(const Napi::CallbackInfo &info);
 
@@ -162,7 +190,17 @@ private:
 
     Napi::Value getElementType(const Napi::CallbackInfo &info);
 
+    Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isFunctionTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isPointerTy(const Napi::CallbackInfo &info);
+
     Napi::Value isStructTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isArrayTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isVectorTy(const Napi::CallbackInfo &info);
 
     Napi::Value isVoidTy(const Napi::CallbackInfo &info);
 
@@ -188,7 +226,17 @@ public:
 private:
     llvm::VectorType *vectorType = nullptr;
 
+    Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isFunctionTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isPointerTy(const Napi::CallbackInfo &info);
+
     Napi::Value isStructTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isArrayTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isVectorTy(const Napi::CallbackInfo &info);
 
     Napi::Value isVoidTy(const Napi::CallbackInfo &info);
 
@@ -218,11 +266,17 @@ private:
 
     static Napi::Value getUnqual(const Napi::CallbackInfo &info);
 
+    Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isFunctionTy(const Napi::CallbackInfo &info);
+
     Napi::Value isPointerTy(const Napi::CallbackInfo &info);
 
     Napi::Value isStructTy(const Napi::CallbackInfo &info);
 
-    Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
+    Napi::Value isArrayTy(const Napi::CallbackInfo &info);
+
+    Napi::Value isVectorTy(const Napi::CallbackInfo &info);
 
     Napi::Value isVoidTy(const Napi::CallbackInfo &info);
 
