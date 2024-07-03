@@ -44,7 +44,6 @@ describe('Test DIBuilder', () => {
             diBuilder.finalize();
             
             const output = module.print();
-            console.log(output);
 
             expect(output).toContain(`!8 = !DICompositeType(tag: DW_TAG_array_type, baseType: !5, size: 2, align: 32, elements: !9)`);
         });
@@ -90,10 +89,8 @@ describe('Test DIBuilder', () => {
             diBuilder.finalize();
 
             const output = module.print();
-            console.log(output);
 
             expect(output).toContain(`!7 = !DICompositeType(tag: DW_TAG_structure_type, name: "struct", scope: !1, file: !1, line: 1, size: 64, flags: DIFlagPublic, elements: !8)`);
-
         });
     })
 });
