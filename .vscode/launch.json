@@ -1,0 +1,56 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Jest: Run tests in current file",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npx",
+            "program": "jest",
+            "args": [
+                "${relativeFile}",
+            ],
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        },
+        {
+            "name": "Vitest: Run tests in current file",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npx",
+            "program": "vitest",
+            "args": [
+                "run",
+                "${relativeFile}",
+            ],
+            "console": "integratedTerminal",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        },
+        {
+            /* execute npm build:debug before running this! */
+            "name": "LLDB: Debug LLVM-binding native parts during Vitest execution",
+            "type": "lldb",
+            "request": "launch",
+            "program": "node",
+            "sourceLanguages": ["cpp", "javascript"],
+            "args": [
+                "${workspaceFolder}/node_modules/vitest/dist/cli-wrapper.js",
+                "run",
+                "${relativeFile}",
+            ],
+        },
+    ]
+}

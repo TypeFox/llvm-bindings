@@ -28,16 +28,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ macos-10.15, macos-11, macos-12, ubuntu-18.04, ubuntu-20.04, ubuntu-22.04, windows-2019, windows-2022 ]
-        node: [ 14, 16, 18 ]
-        exclude:
-          - os: ubuntu-18.04
-            node: 18
+        os: [ macos-12, macos-13, macos-14, ubuntu-20.04, ubuntu-22.04, windows-2019, windows-2022 ] # ubuntu-24.04 does not bring LLVM 14
+        node: [ 18, 20, 22 ]
     steps:
       - name: Fetch Codebase
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
@@ -46,6 +43,7 @@ jobs:
         run: |
           brew update
           brew install llvm@${{ env.LLVM_VERSION_MAJOR }} ninja
+          echo "cmake_LLVM_DIR=$($(brew --prefix llvm@${{ env.LLVM_VERSION_MAJOR }})/bin/llvm-config --cmakedir)" > .npmrc
       - name: Install LLVM and Ninja on Ubuntu
         if: startsWith(matrix.os, 'ubuntu')
         run: |
@@ -61,7 +59,7 @@ jobs:
           curl -sLO https://github.com/ApsarasX/llvm-windows/releases/download/llvmorg-$LLVM_VERSION/$LLVM_PREBUILT_FILE
           Expand-Archive -Path $LLVM_PREBUILT_FILE -DestinationPath .
           $LLVM_CMAKE_DIR = "$pwd\\LLVM-$LLVM_VERSION-win64\\lib\\cmake\\llvm"
-          npm config set cmake_LLVM_DIR $LLVM_CMAKE_DIR
+          echo "cmake_LLVM_DIR=$LLVM_CMAKE_DIR"> .npmrc
       - name: Install Dependencies
         run: npm install --ignore-scripts
       - name: CMake Build Debug and Test

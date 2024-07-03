@@ -29,9 +29,21 @@ listed in the [TypeScript definition file](./llvm-bindings.d.ts).
 
 ### Install on macOS
 
+Make sure `llvm@14` as well as `cmake` are available, e.g. via
 ```shell
 # install cmake and llvm by homebrew
 brew install cmake llvm@14
+```
+
+Tell the extra build tool used here (`cmake-js`) where to find some cmake-specific integration setup of LLVM 14, then `npm install` the package.
+1. First create the required new file named `.npmrc`
+   * alternatively, copy `.npmrc.template` to `.npmrc` and adapt the configured path if needed, `brew --prefix llvm@14` gives you the install dir of LLVM14.
+2. Then run `npm install llvm-bindings`
+
+```shell
+# specify the LLVM cmake directory for cmake-js
+#  also see '.npmrc.template' for reference
+echo "cmake_LLVM_DIR=$($(brew --prefix llvm@14)/bin/llvm-config --cmakedir)" > .npmrc
 
 # install llvm-bindings by npm
 npm install llvm-bindings
@@ -54,15 +66,18 @@ npm install llvm-bindings
 
 ### Install on Windows
 
+_Update:_ Use LLVM in version `14.0.6` sequently.
+
 First, please refer to [Build LLVM from sources on Windows 10](https://github.com/ApsarasX/llvm-bindings/wiki/Build-LLVM-from-source-code-on-Windows-10) to build LLVM. An alternative is to download [prebuilt LLVM binary](https://github.com/ApsarasX/llvm-windows/releases).
 
-Then, find the `llvm-config` command in your LLVM build directory and execute `llvm-config --cmakedir` to get LLVM cmake directory, assuming `C:\Users\dev\llvm-13.0.1.src\build\lib\cmake\llvm`.
+Then, find the `llvm-config` command in your LLVM build directory and execute `llvm-config --cmakedir` to get LLVM cmake directory, assuming `C:\Users\dev\llvm-14.0.6.src\build\lib\cmake\llvm`.
 
 Finally, execute the following commands.
 
 ```shell
 # specify the LLVM cmake directory for cmake-js
-npm config set cmake_LLVM_DIR C:\Users\dev\llvm-13.0.1.src\build\lib\cmake\llvm
+#  also see '.npmrc.template' for reference
+echo "cmake_LLVM_DIR=C:\Users\dev\llvm-13.0.1.src\build\lib\cmake\llvm" > .npmrc
 
 # install llvm-bindings by npm
 npm install llvm-bindings
@@ -72,10 +87,14 @@ npm install llvm-bindings
 
 ### Custom LLVM Installation
 You can use the npm configuration options to set the path to the LLVM cmake directory. This is needed if you don't want to use the system default LLVM installation.
+(Formerly, `npm config` was used here. Meanwhile npm validates the config keys for being known and valid, and rejects custom keys.)
+
 
 ```shell
 # specify the llvm cmake directory by npm and cmake-js
-npm config set cmake_LLVM_DIR $(path-to-llvm/bin/llvm-config --cmakedir)
+#  also see '.npmrc.template' for reference
+# on macos `path-to-llvm` can be obtained via `brew --prefix llvm@14`
+echo "cmake_LLVM_DIR=$(path-to-llvm/bin/llvm-config --cmakedir)" > .npmrc
 
 # install llvm-bindings by npm
 npm install llvm-bindings
