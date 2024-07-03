@@ -1,5 +1,9 @@
+.npmrc
+
 .idea/
-.vscode/
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
 
 cmake-build-*/
 

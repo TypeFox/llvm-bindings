@@ -1,0 +1,18 @@
+{
+    "C_Cpp.default.cStandard": "c17",
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.includePath": [
+        "/opt/homebrew/opt/llvm@14/include",
+        "${userHome}/.cmake-js/node-*/v*/include/node",
+        "${workspaceFolder}/node_modules/node-addon-api",
+        "${workspaceFolder}/include",
+    ],
+    "clangd.fallbackFlags": [
+        "-std=c++17",
+        "-xc++-header",
+        "-I/opt/homebrew/opt/llvm@14/include",
+        "-I${userHome}/.cmake-js/node-arm64/v18.18.2/include/node/", /* switch to your arch & version here! */
+        "-I${workspaceFolder}/node_modules/node-addon-api",
+        "-I${workspaceFolder}/include",
+    ]
+}
