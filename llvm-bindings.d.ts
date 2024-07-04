@@ -378,14 +378,14 @@ declare namespace llvm {
         getPointerTo(addrSpace?: number): PointerType;
 
         getPrimitiveSizeInBits(): number;
-
-        getPointerElementType(): Type;
     }
 
     namespace IntegerType {
         function get(context: LLVMContext, numBits: number): IntegerType;
     }
     interface IntegerType { 
+        getBitWidth(): number;
+        
         // duplicated
         isIntegerTy(bitWidth?: number): this is IntegerType;
 
@@ -416,6 +416,14 @@ declare namespace llvm {
         function get(returnType: Type, paramTypes: Type[], isVarArg: boolean): FunctionType;
     }
     interface FunctionType {
+        getReturnType(): Type;
+
+        getParamType(i: number): Type;
+
+        getNumParams(): number;
+
+        isVarArg(): boolean;
+
         // duplicated
         isIntegerTy(bitWidth?: number): this is IntegerType;
 
@@ -543,6 +551,10 @@ declare namespace llvm {
         function get(elemType: Type, numElements: number, scalable: bool): VectorType;
     }
     interface VectorType {
+        getElementCount(): object /* ElementCount */;
+
+        getElementType(): Type;
+
         // duplicated
         isIntegerTy(bitWidth?: number): this is IntegerType;
 

@@ -47,6 +47,7 @@ namespace ErrMsg {
             constexpr const char *get = "FunctionType.get needs to be called with:"
                                         "\n\t - (returnType: Type, isVarArg: boolean)"
                                         "\n\t - (returnType: Type, paramTypes: Type[], isVarArg: boolean)";
+            constexpr const char *getParamType = "FunctionType.getParamType needs to be called with: (i: number)";
         }
         namespace FunctionCallee {
             constexpr const char *constructor = "FunctionCallee.constructor needs to be called with new ()";
