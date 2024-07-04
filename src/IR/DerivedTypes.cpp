@@ -9,6 +9,7 @@ void IntegerType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "IntegerType", {
             StaticMethod("get", &IntegerType::get),
+            InstanceMethod("getBitWidth", &IntegerType::getBitWidth),
             InstanceMethod("isIntegerTy", &IntegerType::isIntegerTy),
             InstanceMethod("isFunctionTy", &IntegerType::isFunctionTy),
             InstanceMethod("isPointerTy", &IntegerType::isPointerTy),
@@ -63,6 +64,10 @@ Napi::Value IntegerType::get(const Napi::CallbackInfo &info) {
     return IntegerType::New(env, integerType);
 }
 
+Napi::Value IntegerType::getBitWidth(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(info.Env(), integerType->getBitWidth());
+}
+
 Napi::Value IntegerType::isIntegerTy(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() != 0 && !info[0].IsNumber()) {
@@ -108,6 +113,10 @@ void FunctionType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "FunctionType", {
             StaticMethod("get", &FunctionType::get),
+            InstanceMethod("getReturnType", &FunctionType::getReturnType),
+            InstanceMethod("getParamType", &FunctionType::getParamType),
+            InstanceMethod("getNumParams", &FunctionType::getNumParams),
+            InstanceMethod("isVarArg", &FunctionType::isVarArg),
             InstanceMethod("isIntegerTy", &FunctionType::isIntegerTy),
             InstanceMethod("isFunctionTy", &FunctionType::isFunctionTy),
             InstanceMethod("isPointerTy", &FunctionType::isPointerTy),
@@ -173,6 +182,27 @@ Napi::Value FunctionType::get(const Napi::CallbackInfo &info) {
         functionType = llvm::FunctionType::get(returnType, isVarArg);
     }
     return FunctionType::New(env, functionType);
+}
+
+Napi::Value FunctionType::getReturnType(const Napi::CallbackInfo &info) {
+    return Type::New(info.Env(), functionType->getReturnType());
+}
+
+Napi::Value FunctionType::getParamType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::FunctionType::getParamType);
+    }
+    unsigned index = info[0].As<Napi::Number>();
+    return Type::New(env, functionType->getParamType(index));
+}
+
+Napi::Value FunctionType::getNumParams(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(info.Env(), functionType->getNumParams());
+}
+
+Napi::Value FunctionType::isVarArg(const Napi::CallbackInfo &info) {
+    return Napi::Boolean::New(info.Env(), functionType->isVarArg());
 }
 
 Napi::Value FunctionType::isIntegerTy(const Napi::CallbackInfo &info) {
@@ -560,7 +590,7 @@ Napi::Value ArrayType::isValidElementType(const Napi::CallbackInfo &info) {
 }
 
 Napi::Value ArrayType::getNumElements(const Napi::CallbackInfo &info) {
-    return Napi::Number::New(info.Env(), double(arrayType->getNumElements()));
+    return Napi::Number::New(info.Env(), arrayType->getNumElements());
 }
 
 Napi::Value ArrayType::getElementType(const Napi::CallbackInfo &info) {
@@ -607,6 +637,8 @@ void VectorType::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "VectorType", {
             StaticMethod("get", &VectorType::get),
+            InstanceMethod("getElementCount", &VectorType::getElementCount),
+            InstanceMethod("getElementType", &VectorType::getElementType),
             InstanceMethod("isIntegerTy", &VectorType::isIntegerTy),
             InstanceMethod("isFunctionTy", &VectorType::isFunctionTy),
             InstanceMethod("isPointerTy", &VectorType::isPointerTy),
@@ -660,6 +692,19 @@ Napi::Value VectorType::get(const Napi::CallbackInfo &info) {
         return VectorType::New(env, llvm::VectorType::get(elemType, numElements, scalable));
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::VectorType::get);
+}
+
+Napi::Value VectorType::getElementCount(const Napi::CallbackInfo &info) {
+    const llvm::ElementCount eCount =  vectorType->getElementCount();
+    // for simplicity just return an object with a few properties set
+    Napi::Object obj = Napi::Object::New(info.Env());
+    obj.Set("isScalar", Napi::Number::New(info.Env(), eCount.isScalar()));
+    obj.Set("isVector", Napi::Number::New(info.Env(), eCount.isVector()));
+    return obj;
+}
+
+Napi::Value VectorType::getElementType(const Napi::CallbackInfo &info) {
+    return Type::New(info.Env(), vectorType->getElementType());
 }
 
 Napi::Value VectorType::isIntegerTy(const Napi::CallbackInfo &info) {

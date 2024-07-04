@@ -24,6 +24,8 @@ private:
 
     static Napi::Value get(const Napi::CallbackInfo &info);
 
+    Napi::Value getBitWidth(const Napi::CallbackInfo &info);
+
     Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
 
     Napi::Value isFunctionTy(const Napi::CallbackInfo &info);
@@ -61,6 +63,14 @@ private:
     llvm::FunctionType *functionType = nullptr;
 
     static Napi::Value get(const Napi::CallbackInfo &info);
+
+    Napi::Value getReturnType(const Napi::CallbackInfo &info);
+
+    Napi::Value getParamType(const Napi::CallbackInfo &info);
+
+    Napi::Value getNumParams(const Napi::CallbackInfo &info);
+
+    Napi::Value isVarArg(const Napi::CallbackInfo &info);
 
     Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
 
@@ -231,6 +241,10 @@ private:
     llvm::VectorType *vectorType = nullptr;
 
     static Napi::Value get(const Napi::CallbackInfo &info);
+
+    Napi::Value getElementCount(const Napi::CallbackInfo &info);
+
+    Napi::Value getElementType(const Napi::CallbackInfo &info);
 
     Napi::Value isIntegerTy(const Napi::CallbackInfo &info);
 
