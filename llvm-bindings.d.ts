@@ -1946,11 +1946,15 @@ declare namespace llvm {
     }
 
     class DataLayout {
+        public constructor(module: Module);
+
         public constructor(desc: string);
 
         public getStringRepresentation(): string;
 
         public getTypeAllocSize(type: Type): number;
+
+        public getTypeAllocSizeInBits(type: Type): number;
     }
 
     function verifyFunction(func: Function): boolean;

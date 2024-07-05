@@ -25,4 +25,6 @@ private:
     Napi::Value getStringRepresentation(const Napi::CallbackInfo &info);
 
     Napi::Value getTypeAllocSize(const Napi::CallbackInfo &info);
+
+    Napi::Value getTypeAllocSizeInBits(const Napi::CallbackInfo &info);
 };

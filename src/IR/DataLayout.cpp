@@ -5,7 +5,8 @@ void DataLayout::Init(Napi::Env env, Napi::Object &exports) {
     Napi::HandleScope scope(env);
     Napi::Function func = DefineClass(env, "DataLayout", {
             InstanceMethod("getStringRepresentation", &DataLayout::getStringRepresentation),
-            InstanceMethod("getTypeAllocSize", &DataLayout::getTypeAllocSize)
+            InstanceMethod("getTypeAllocSize", &DataLayout::getTypeAllocSize),
+            InstanceMethod("getTypeAllocSizeInBits", &DataLayout::getTypeAllocSizeInBits)
     });
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
@@ -27,10 +28,13 @@ llvm::DataLayout &DataLayout::Extract(const Napi::Value &value) {
 DataLayout::DataLayout(const Napi::CallbackInfo &info) : ObjectWrap(info) {
     Napi::Env env = info.Env();
     if (!info.IsConstructCall() || info.Length() == 0 ||
-        !info[0].IsExternal() && !info[0].IsString()) {
+        !Module::IsClassOf(info[0]) && !info[0].IsExternal() && !info[0].IsString()) {
         throw Napi::TypeError::New(env, ErrMsg::Class::DataLayout::constructor);
     }
-    if (info[0].IsExternal()) {
+    if (Module::IsClassOf(info[0])) {
+        llvm::Module *module = Module::Extract(info[0]);
+        dataLayout = new llvm::DataLayout(module);
+    } else if (info[0].IsExternal()) {
         auto external = info[0].As<Napi::External<llvm::DataLayout>>();
         dataLayout = external.Data();
     } else if (info[0].IsString()) {
@@ -54,6 +58,16 @@ Napi::Value DataLayout::getTypeAllocSize(const Napi::CallbackInfo &info) {
         llvm::Type *type = Type::Extract(info[0]);
         auto allocSize = dataLayout->getTypeAllocSize(type);
         return Napi::Number::New(env, double(allocSize.getFixedSize()));
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::DataLayout::getTypeAllocSize);
+}
+
+Napi::Value DataLayout::getTypeAllocSizeInBits(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 1 && Type::IsClassOf(info[0])) {
+        llvm::Type *type = Type::Extract(info[0]);
+        auto allocSizeInBits = dataLayout->getTypeAllocSizeInBits(type);
+        return Napi::Number::New(env, double(allocSizeInBits.getFixedSize()));
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::DataLayout::getTypeAllocSize);
 }
