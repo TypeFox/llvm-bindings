@@ -459,6 +459,10 @@ declare namespace llvm {
         function getTypeByName(context: LLVMContext, name: string): StructType | null;
     }
     interface StructType {
+        getNumElements(): number;
+
+        getElementType(i: number): Type;
+
         setBody(elementTypes: Type[]): void;
 
         setName(name: string): void;

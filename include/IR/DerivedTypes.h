@@ -138,6 +138,10 @@ private:
 
     Napi::Value getName(const Napi::CallbackInfo &info);
 
+    Napi::Value getNumElements(const Napi::CallbackInfo &info);
+
+    Napi::Value getElementType(const Napi::CallbackInfo &info);
+
     Napi::Value isOpaque(const Napi::CallbackInfo &info);
 
     Napi::Value isPacked(const Napi::CallbackInfo &info);
