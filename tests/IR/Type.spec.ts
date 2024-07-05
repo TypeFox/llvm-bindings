@@ -39,6 +39,7 @@ describe('Test type testers', () => {
     test('Test with ArrayType', () => {
         const context = new llvm.LLVMContext();
         const irBuilder = new llvm.IRBuilder(context);
+        const module = new llvm.Module('testModule', context);
 
         [
             llvm.ArrayType.get(irBuilder.getInt8Ty(), 17),
@@ -57,12 +58,16 @@ describe('Test type testers', () => {
             expect(valArrayType.isStructTy()).toBe(false);
             expect(valArrayType.isVectorTy()).toBe(false);
             expect(valArrayType.isVoidTy()).toBe(false);
+
+            expect(module.getDataLayout().getTypeAllocSize(valArrayType)).toBe(17);
+            expect(module.getDataLayout().getTypeAllocSizeInBits(valArrayType)).toBe(136);
         });
     });
 
     test('Test with StructType', () => {
         const context = new llvm.LLVMContext();
         const irBuilder = new llvm.IRBuilder(context);
+        const module = new llvm.Module('testModule', context);
 
         [
             llvm.StructType.create(context, [ irBuilder.getInt8Ty(), irBuilder.getInt8Ty() ], 'myStruct'),
@@ -85,6 +90,12 @@ describe('Test type testers', () => {
             expect(valStructType.isStructTy() && valStructType.getNumElements()).toBe(2);
             expect(valStructType.isStructTy() && valStructType.getElementType(0).isIntegerTy(8)).toBe(true);
             expect(valStructType.isStructTy() && valStructType.getElementType(1).isIntegerTy(8)).toBe(true);
+
+            expect(module.getDataLayout().getTypeAllocSize(valStructType)).toBe(2);
+            expect(module.getDataLayout().getTypeAllocSizeInBits(valStructType)).toBe(16);
+
+            expect(new llvm.DataLayout(module).getTypeAllocSize(valStructType)).toBe(2);
+            expect(new llvm.DataLayout(module.getDataLayoutStr()).getTypeAllocSizeInBits(valStructType)).toBe(16);
         });
     });
 
