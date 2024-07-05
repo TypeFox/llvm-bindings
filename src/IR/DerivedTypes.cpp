@@ -275,6 +275,8 @@ void StructType::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("setName", &StructType::setName),
             InstanceMethod("hasName", &StructType::hasName),
             InstanceMethod("getName", &StructType::getName),
+            InstanceMethod("getNumElements", &StructType::getNumElements),
+            InstanceMethod("getElementType", &StructType::getElementType),
             InstanceMethod("isOpaque", &StructType::isOpaque),
             InstanceMethod("isPacked", &StructType::isPacked),
             InstanceMethod("isLiteral", &StructType::isLiteral),
@@ -373,7 +375,7 @@ Napi::Value StructType::getTypeByName(const Napi::CallbackInfo &info) {
     Napi::Env env = info.Env();
     if (info.Length() == 2 && LLVMContext::IsClassOf(info[0]) && info[1].IsString()) {
         llvm::LLVMContext &context = LLVMContext::Extract(info[0]);
-        const std::string name = info[0].As<Napi::String>();
+        const std::string name = info[1].As<Napi::String>();
         llvm::StructType *type = llvm::StructType::getTypeByName(context, name);
         if (type) {
             return StructType::New(env, type);
@@ -412,6 +414,19 @@ Napi::Value StructType::hasName(const Napi::CallbackInfo &info) {
 
 Napi::Value StructType::getName(const Napi::CallbackInfo &info) {
     return Napi::String::New(info.Env(), structType->getName().data());
+}
+
+Napi::Value StructType::getNumElements(const Napi::CallbackInfo &info) {
+    return Napi::Number::New(info.Env(), structType->getNumElements());
+}
+
+Napi::Value StructType::getElementType(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 0 || !info[0].IsNumber()) {
+        throw Napi::TypeError::New(env, ErrMsg::Class::StructType::getElementType);
+    }
+    unsigned index = info[0].As<Napi::Number>();
+    return Type::New(env, structType->getElementType(index));
 }
 
 Napi::Value StructType::isOpaque(const Napi::CallbackInfo &info) {
