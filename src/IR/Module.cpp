@@ -31,6 +31,7 @@ void Module::Init(Napi::Env env, Napi::Object &exports) {
             InstanceMethod("getFunction", &Module::getFunction),
             InstanceMethod("getOrInsertFunction", &Module::getOrInsertFunction),
             InstanceMethod("getGlobalVariable", &Module::getGlobalVariable),
+            InstanceMethod("getOrInsertGlobal", &Module::getOrInsertGlobal),
             InstanceMethod("addModuleFlag", &Module::addModuleFlag),
             InstanceMethod("empty", &Module::empty),
             InstanceMethod("print", &Module::print)
@@ -196,6 +197,17 @@ Napi::Value Module::getGlobalVariable(const Napi::CallbackInfo &info) {
         return env.Null();
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::Module::getGlobalVariable);
+}
+
+Napi::Value Module::getOrInsertGlobal(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    if (info.Length() == 2 && info[0].IsString() && Type::IsClassOf(info[1])) {
+        std::string functionName = info[0].As<Napi::String>();
+        llvm::Type *type = Type::Extract(info[1]);
+        llvm::Constant* glob = module->getOrInsertGlobal(functionName, type);
+        return GlobalVariable::New(env, dyn_cast_or_null<llvm::GlobalVariable>(glob));
+    }
+    throw Napi::TypeError::New(env, ErrMsg::Class::Module::getOrInsertGlobal);
 }
 
 void Module::addModuleFlag(const Napi::CallbackInfo &info) {

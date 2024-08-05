@@ -48,6 +48,8 @@ private:
 
     Napi::Value getGlobalVariable(const Napi::CallbackInfo &info);
 
+    Napi::Value getOrInsertGlobal(const Napi::CallbackInfo &info);
+
     void addModuleFlag(const Napi::CallbackInfo &info);
 
     Napi::Value empty(const Napi::CallbackInfo &info);

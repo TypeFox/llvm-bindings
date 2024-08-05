@@ -359,4 +359,13 @@ describe('Test Module', () => {
             expect(module.print()).toMatchSnapshot();
         });
     });
+
+    describe('Global variables', () => {
+        test('Global variable declared', () => {
+            const context = new llvm.LLVMContext();
+            const module = new llvm.Module(FileName, context);
+            module.getOrInsertGlobal('HomerSimpson', llvm.Type.getInt32Ty(context));
+            expect(module.print()).toContain('@HomerSimpson');
+        });
+    });
 });

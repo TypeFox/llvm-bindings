@@ -24,6 +24,7 @@ namespace ErrMsg {
             constexpr const char *getFunction = "Module.getFunction needs to be called with: (name: string)";
             constexpr const char *getOrInsertFunction = "Module.getOrInsertFunction needs to be called with: (name: string, fnType: FunctionType)";
             constexpr const char *getGlobalVariable = "Module.getGlobalVariable needs to be called with: (name: string, allowInternal?: boolean)";
+            constexpr const char *getOrInsertGlobal = "Module.getOrInsertGlobal needs to be called with: (name: string, type: Type)";
             constexpr const char *addModuleFlag = "Module.addModuleFlag needs to be called with (behavior: number, key: string, value: number)"
                                                   "\n\t - limit: behavior should belong to [1, 7]";
         }

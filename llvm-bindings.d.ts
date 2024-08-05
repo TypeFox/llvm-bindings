@@ -227,6 +227,8 @@ declare namespace llvm {
 
         public getGlobalVariable(name: string, allowInternal?: boolean): GlobalVariable | null;
 
+        public getOrInsertGlobal(name: string, varType: Type): FunctionCallee;
+
         public addModuleFlag(behavior: number, key: string, value: number): void;
 
         public empty(): boolean;
