@@ -205,7 +205,7 @@ Napi::Value Module::getOrInsertGlobal(const Napi::CallbackInfo &info) {
         std::string functionName = info[0].As<Napi::String>();
         llvm::Type *type = Type::Extract(info[1]);
         llvm::Constant* glob = module->getOrInsertGlobal(functionName, type);
-        return GlobalVariable::New(env, dyn_cast_or_null<llvm::GlobalVariable>(glob));
+        return GlobalVariable::New(env, llvm::cast<llvm::GlobalVariable>(glob));
     }
     throw Napi::TypeError::New(env, ErrMsg::Class::Module::getOrInsertGlobal);
 }
