@@ -2,7 +2,7 @@
 
 LLVM bindings for Node.js/JavaScript/TypeScript
 
-[![github-action](https://img.shields.io/github/workflow/status/ApsarasX/llvm-bindings/Build?style=flat-square)](https://github.com/ApsarasX/llvm-bindings/actions)
+[![github-action](https://github.com/TypeFox/llvm-bindings/actions/workflows/build.yml/badge.svg)](https://github.com/ApsarasX/llvm-bindings/actions)
 [![npm](https://img.shields.io/npm/v/llvm-bindings?style=flat-square)](https://www.npmjs.com/package/llvm-bindings)
 [![github-license](https://img.shields.io/github/license/ApsarasX/llvm-bindings?style=flat-square)](https://github.com/ApsarasX/llvm-bindings/blob/master/LICENSE)
 
